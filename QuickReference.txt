@@ -1,0 +1,53 @@
+Java:
+Significance of Lambda:
+It represents a clear and concise way of representing one method of interface using an expression.
+Lambda expression can be used to implement functional interfaces.
+functional interface is an interface with single abstract method and lambda implements the abstract method.
+
+
+how streams works 
+They are wrappers around data source ,allowing us to operate with the data source and making bulk processing fast 
+With streams source ->Filter -> Sort ->Map ->Collect.
+
+how concurrency can be implemented in java8
+To enable multithreading we can use Parallel Streams.
+the parallelStream() method that runs operations over streams elements in parallel mode.
+
+Feature related to memory management in java8:
+The Jdk 8 JVM is using native memory for the representation of class metadata and is called as metaspace.
+So no more java.lang.OutOfMemoryError: PermGen error and no need for us to tune and monitor the memory space 
+This has removed the permgenSpace completely.
+
+Spring:
+
+Different spring modules and  uses?
+core,bean,context,jdbc,orm,web,web-servlets,web-struts
+
+what is API Gateway?
+To built an API to receive the calls from clients.
+open source - Zuul by NetFlix
+
+
+how to call soap API and rest API?
+
+what design patterns used in microservices?
+
+how to implement Rabbit Mq?
+
+
+Password hashing:
+hashing:inputs a value and transforms the vaue to another format which is unrecognizable
+properties of hashing:
+.Repeatable - reproducable for next time also 
+.oneway - if we decrypt (dehash) can't get the same value
+
+when a user logs in and provides the password then the value which is already hashed and stored in the db with that will be comparing and vaidates accordingly.
+
+ 
+
+
+
+
+
+
+

@@ -1,0 +1,177 @@
+https://www.nginx.com/blog/introduction-to-microservices/
+
+Rest Template used to create applications that consume RestFul webservices.
+We can use the exchange() method to consume the webservices for all HTTP methods.
+This will be defined in the main springboot class as @Bean and later will be autowired in the restcontrollers.
+RestTemplate is  threadsafe.
+
+
+In place of Rest Templates - as part of reactive programming WebClient is coming.
+To add this in to your spring boot project (webflux dependency) - in the spring intializer add reactive web then WebClient will be added to your classpath.
+
+
+for microservices the authorization - JWT(JSON Web Token)
+oauth2 defines a protocol and can be used to different services talking to each other.This specifies how tokens are transfered where JWT defines the token format.So oauth2 can use JWT as a token format.
+
+
+Service disco9very pattern:
+Services talk to each other.How one microservice know about other service url
+
+for this one service will handle all other services url in the service registry and every request to be made to this service.
+This is Discovery Service.
+two ways of discovery services - clinet side and server side
+Client side - will be having the service registry maintained at client side and client service will make a call to this; ex:Eureka
+On the server side all service urls will be registered on the server side and client will be making a call to load balancer and then to server side service.
+Example is NGINX.
+
+Eureka server can be downloaded from Spring website.
+API Gateway:
+This is an additional hop in the network that every request will have to go thorough in order to consume the underlying APIs.This receives traffic from client and sends to services.
+There can be one of the service composed as an API service- this is called API compostion.
+Within the same APIGateway service we can implement the application monitoring,authentication(adding JWT token authentication here).
+Instead of preparing this we have some open source API Gateways - ZUUL by NetFlix
+
+Cons:
+1.Additional network hop which might cause slowness
+2.As it is a single point of contact for client - fault tolerance to be maintained here by adding a load balancer and mutliple API gatways.
+
+Service Mesh /API GateWay:
+In terms of functionality both do almost similar jobs like authentication,request routing,service discovery etc.
+API Gateway mainly focuses on the client-to-service communication whereas Service mesh concentrates on internal service-to-service communication.
+In future the role of API gateway can be taken over by service mesh and move towards the docker and kubernetes.
+
+
+Patterns:
+Serivce Discovery (implementing Eureka)
+Facade Pattern (implmenting API Gateway)
+Circuit Breaker Pattern( for falut tolerance)
+
+SAGA design pattern:
+to ensure the data consistency in the distributed environment we can follow this pattern.
+two ways to achieve this - choreography and orchestration
+
+choreography :transactions publishes domain events that triggers the local transactions in other services
+
+orchestration:command based; we can have one saga service (SEC) it can coordinate each service and collates the confirmations and accordingly tranmimts message to other services
+
+
+Application Deployment:
+to Tomcat:
+1.add the spring boot starter dependency to pom.xml
+2.Spring main class extends SpringServletIntializer
+3.Application will be converted as War
+4.add tomcat artifact in pom.xml
+5.once Maven built happens application will be converted as war
+6.drop the war to tomcast webapps folder
+
+to any cloud:
+More than one service can be deployed on one instance so mutiple instances per host pattern can be followed.
+
+through jenkins:deployment tool.
+-- install jenkins 
+once jenkins server is installed - open it on port 9090 - jenkins dashboard
+-- deploy jenkins plugin
+jenkins - deploy jenkins plugin - download from ManagePlugins option
+-- create a build job in jenkins
+-- add post-build war to container
+War can be copied to jenkins_home workspace directory
+Any further user management can done in tomcat conf file.
+
+process of jenkins - 
+1.developer commit the changes to git repository
+2.jenkins will detect for source code changes
+3.It will collect the changes and will start for a new build if the build fails it notifies back with email ,incase it passed it will deploy thhe changes to the test server.
+benefits:
+1.automation of maven
+2.early notification about build failure
+3.easy tracking of bugs
+4.continuous integration
+
+
+
+to AWS:
+1.move the springboot application to a container using ECS(Elastic Container Service)
+this acts like a docker container
+
+
+
+Fault tolerance:
+When a microservice is taking more time to sending the response and in the mean pthe services are waiting on the response finally throws a timeout response.
+to avoid this we can have one service detects for any circuit break and when it occurs it provides an alternate solution rather having timeout.
+We can use Histrix provided by Netflix - an open source library and it implements the circuit breaker pattern
+1.Add the spring-cloud-starter-netflix-hystrix library 
+2.Add @EnableCircuitBreaker to the spring main class
+3.Add @HystrixCommand to the method which are going to have the implementation.
+4.configure the hystrix behaviour
+
+only one hystrixcommand to be applied for the method in one class.
+Configuring hystrix parameters at method level:
+@HystrixCommand(fllbackMethod = "" ,
+commandProperties = {
+  @HystrixProperty(name = "when the timeout should happen",threshold value all other parameters )
+  
+  Hystrix Dashboard:
+  abililty to display the data in a dashboard.
+  Dependencies:
+  1.spring-cloud-netflix-starter-dashboard and actuator dependencies in Maven
+  2.@EnableHystrixDashBoard to the main spring class
+  3.in the application.properties
+  management.endpoints.web.exposure.include = hystrix.stream
+  this is going expose the server monitoring data to a stream.
+  
+  bulkhead pattern:
+  to handle outages
+  
+  to handle outages how many ways we can achieve:
+  1.Create more instances
+  2.Implement Circuit Breaker Pattern
+  3.bulk head pattern.
+  
+  bulkhead Pattern:
+  allocate a seprate thread pool for each of the service so that they wont be effect each other service.
+  for this set up 
+  @HystrixCommand(
+  fallbackMethod = "",
+  ThreadPoolKey = "",
+  ThreadPoolProperties = {
+  @HystrixProperty(name = "CoreSize" , value = ""),
+  @HystrixProperty(name = "MaxQueueSize" value = "")
+  }
+  
+semantic monitoring in microservices:
+Consider the business usecase and test the microservice accordingly.
+
+
+Microservice inter communication:
+2 ways - HttpCall or RPC call
+for better way communication we can do asynchronous calls.
+Disadvan  with synchronous call - service availability and the resonse time high
+So we can go for async.
+How to do : each microservice can post their response to some queue and this in async manner.
+Disadvantage:
+Implementation cost and maintainance grows
+
+How service mesh works 
+1.Load balance
+2.Service Discovery
+3.Metrics
+4.Retries
+5.Circuit breaking
+6.Timeout
+We can add service mesh on each VM/Container along with microservice 
+then instead of MS servicemesh can make a call to other microservices.
+This implements side car(implementing service mesh along with MS) and proxy patterns(handles communication as well)
+
+Deployment Patterns:
+1.Mutliple Services per Host
+
+
+
+RPC Call: - Remote Procedure Call
+It is an inter process communication technique which can be used for client-server based applications.
+
+communication flow be like this.
+Client function ->client stub ->client RPC runtime -> server RPC run time ->server stub ->server function.
+
+no direct communication - disadvantage - maintainance cost increases.
+

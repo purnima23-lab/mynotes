@@ -1,0 +1,252 @@
+New Features introduced in java8:
+-default and static methods in interfaces
+-lambda expressions
+-Functional interface
+-Stream API - to work on the bulk data processing 
+-optional interface
+-method reference
+-java time API - LocalDate,LocaleTIme
+-ForEach method in the iterable interface
+-concurrency
+
+1.default and static methods in interfaces - Interfaces can have the method implementation now.
+prior to java8 all methods in interfaces are abstract now we got default methods are introduced in java 8 this helps in acheiving addition of new methods to the interface without need to change in existing classes.
+Default methods to java8 was the desire to extend the collections framework interfaces with Lambda oriented methods without breaking any existing implementations.
+
+For Example
+List interface - replaceAll method added.
+Stream.of()
+Stream.iterate()
+
+2.lambda expressions:
+An anonymous function which have a set of parameters and a lambda expression.This function has no name.
+lambda expression can only be applied to the abstract method of functional interface.
+This is bringing functional programming into java.
+more about Lambda:
+Closures in Lambda:
+Clousures are a specific sub type of the function where variables defined in the class be binded to local variables in a specific closing environment.
+If we define any class level variables with values eventhough we dont define them with the final keyword still compiler is going to consider it as Final variable and will not allow to change the value in further code.
+
+Exceptions handling in Lambda:
+Another wrapper method can be written and call the lambda method inside and add try catch block there.
+
+3.Functional interface
+The interfaces that have only one abstract method in it.It can have more than one default or static method and can override the method from java.lang.object.
+and one minimum abstract method (with or w/o abstract keyword)
+Can be denoted with @FunctionalInterface
+
+below are the functional interfaces defined in java.util.function package.
+
+Predicates:
+Conditional checks then we need to use Predicates
+Predicate<Integer>
+Ex:boolean Test(T t
+Consumer:
+When an object needs to be consumed  ie taken as input and some operation to be done on the object without returning any result.
+Ex: Void accept(T t);
+Supplier:
+When no input provided but an outut is expected.
+Ex: T get();
+
+Examples:
+Runnable - run()
+Comaparator - compare() 
+Callable - call()
+
+Diff b/w streams and collections ?
+Collections can do insertion ,deletion operations on objects whereas Streams only process the data.
+
+4.Stream API:Basically streams doesnt store any data it process data.
+java.util.stream- for bulk data processing.
+They are wrappers around data source ,allowing us to operate with the data source and making bulk processing fast 
+With streams source ->Filter -> Sort ->Map ->Collect.
+
+to support sequential and parallel aggregate operations.
+Streams - sequential processing
+parallelStream - not in a sequential and will be handled by multiple process and this improves performance.
+
+Map and FlatMap methods in Stream
+lstofstring.stream.map() /lstofstring.stream.flatMap()
+Map - Processes a stream of values , flatMap - process stream of streams.
+Map - do only mapping  / flatMap do mapping and flattering
+Mapper produces single value for each input  / flatMap produces multiple values for each input
+Map - one to one mapping / flatMap - one-to-many mapping
+  
+When we apply a flatmap on list of list of strings it will convert all into one list of strings and do operation.
+
+partitioningBy / groupingBy:
+two methods in streams
+partitioning by collectors can be chosen if we want to get result in two groups 
+ex. find out who is best who is worst based on some condition
+
+grouping By - to get some aggregate functions or some avergae values we can use this.
+5.Optional Interface:
+To avoid the NullpointerException java8 introduced this class.
+Optional interface encapsulates vaue which is either present or not.
+When there is a chance of getting a null for the objects to tell java to take care o f handling the null pointer.
+
+Optional.empty() - returns an empty optional object
+
+Optional.ofNullable(null)- returns an optional describing the speicifed value if non-null,otherwise retuns an empty optional;
+Optional.of() - will return the object of optional without null checks
+optional.ofNullable() - will return the object of optional with a null check.
+
+
+6.Method Reference:
+Method reference is used to refer method of a functional interface.It is a compact way to define a lambda expression.
+Syntax:  class::methodName.
+
+7.Time API:
+
+prior to java8 java.util.date API is mutable and not thread-safe.
+From java8 all Date API's are thread safe and improved performance.
+Some of the classes are LocalTime,LocalDate,LocalDateTime.
+ 
+8.ForEach method in the Iterable Interface
+
+9.Concurrency API
+
+Multi threading:
+https://www.youtube.com/watch?v=AfVbJDr-8ic
+
+CompletableFuture class enables aynchronous multi threading.
+this is from java.util.concurrent pacakge and implements completionstage and future interfaces.
+
+limitations with future:
+having no exception handling
+can't done after isDone and get methods.
+we can't combine mutliple futures.
+
+methods in the completableFuture class are - supplyAync,thenAppy,join
+Use of Functional interface?
+we can use lamda expressions to instantiate them and to avoid the bulky writing of anonymous class.
+
+?? functional programming vs oops:
+
+can go for oops when we have fixed set of operations on things
+funtional can go when we have fixed set of things and can do many functions
+
+oops based object concepts where as functional based on functions on the data
+oops dont support parallel programming
+oops uses loops for iterative data whereas functional uses recursion for data iteration.
+exceptionhandling - exceptionally,handle ,whenComplete are three methods to handle the exceptions.
+
+
+Collections:
+
+diff between arrays n collections?
+
+Array fixed size /collections growable
+array store homogenous /collections heterogenius
+array can't perform sort ,search etc whereas Collections can 
+Considering memory occupancy Array occupies more memory than Collection
+
+Collections is a class and collection is an interface
+collection - List,set,Queue
+Map not part of collections ,it is part of util package
+
+Collection n Map - java.util.Collection , java.util.Map
+
+collection extends the interfaces - List , Set ,Map ,Queue
+SET - hashset,linkedhashset,Treeset,sortedset,navigableset
+hashset - no duplicates
+linkedhashset - hashset +list = no duplicates , elements traverses in the same way how the insertion happened
+treeset - all elements in sorted order
+
+??diff between sorted set and treeset?
+sorted set is an interface whereas treeset is an implementation
+
+You can't just write SortedSet<Integer> example = new SortedSet<Integer>();
+You can however write SortedSet<Integer> example = new TreeSet<Integer>();
+
+navigableset is subtype of sortedset.
+navigableset adds navigation methods like descendingIterator() and descendingSet(), ceiling(), floor(), higher(), lower(), headSet(), tailSet(), subSet(), pollFirst() and pollLast().
+
+ArrayList/LinkedList - addition or removal of elements in the middle - on a performance note 
+
+https://dzone.com/articles/an-introduction-to-the-java-collections-framework
+
+??Thread-safe classes in Collection 
+
+ Thread-safe class is a class the guarantees the internal state of the class as well returned values from methods are correct while invoked currently from multiple threads.
+ 
+ Thread-safe classes are Stack,Vector,Hash-Table,Properties
+ 
+ Synchronization can be very expensive and in the multi-threaded environment these classes show poor performance.becuase synchronization requires locks which always take time to monitor which reduce the performance.
+ 
+List,set,Map provide no concurrancy control
+HashMap is not a thread safe.
+
+concurrentHashmap is thread safe still performance good
+maintains seperate locking mechanism.It follows reentrantlock mechanism.
+internal blocks devided in to 16 and each sement can taken by one thread.
+this provides better performance by blocking only certian portion of the map rather than blocking the entire 
+cncurrent hashmap thread safety is ensured by having seperate locks for seperate segments
+no null keys are allowed
+Iterator provided by this map is fail-safe it will not throw concurrencyexception
+when to use this - when there are more reads than writes.
+
+Internal Working on HashMap::::
+
+HashMa internally uses hashcode mechanism which is converts the total string object into a short length integer which helps in faster retrieval.
+HashMap internally follows a node mechanism to store the objects - that node consists of [hash,key ,value and next object reference] basically this acts as a linked list.
+For a PUT operation - this comes with a table of block size 16 and  for storing it uses the algorithm 
+like index = hash & (n-1 ) where n = 16 each segment can be taken up by each thread and whenever any hash collision occurs it adds the object in a linked list format.
+It is a non synchronized and can be shared with mutliple threads.
+It stores the data in key value pairs and faster processing.
+
+
+
+??MetaSpace over PermGen?
+The Jdk 8 JVM is using native memory for the representation of class metadata and is called as metaspace.
+So no more java.lang.OutOfMemoryError: PermGen error and no need for us to tune and monitor the memory space 
+This has removed the permgenSpace completely.
+
+
+Tricky Questions:
+1.Why String is immutable in java?
+String pool requires string to be immutable otherwise shared reference can be changed from anywhere.
+As String is being shared among various areas and if it is not immutable any one can surpass the security.
+
+2.Why mutiple inheritance is not supported in java?
+Using classes Java doesnt support multiple inheritance whereas it supports via interfaces.
+Considering the complexity involved in constructor chaining and casting it will not support for multiple inheritance.
+
+3.How to detect deadlock and fix it?
+deadlock occurs when multiple threads acting on one process and waiting on the instruction from main thread.
+This problem can be overcome by CompletableFuture Interface methods from java8
+
+4.
+
+SOLID principles:
+Single Responsibility - A class should have only one reason to change ie it should be built to serve one functionality
+Open Closed - Software entities should be open for extension and closed for modification. - let the abstract class have all the method defnitions and extending classes should have their own implementation.
+Liskov Substitution - sub types must be substitutable for their basic types - we should use inheritance when super class is replcable by sub class instances.
+ISP interface Segregation
+DIP Dependency Inversion
+
+
+
+Diff b/w comparable and compare interfaces?
+Both are interfaces and can be used for sorting.
+diff:
+Comparable - single sorting tehniquwe meand it can sort the objects on the basis of id, name 
+Comparator - multiple sorting sequence it can sort the objects on the basis of mutliple properties
+comparable modifies the internal structure whereas comparable wont modify the internal structure.
+Comparator - compareTo(object) to sort the elements whereas Comparable - compare() method.
+Comparator - collections.sort() comparator - collections.r
+
+Comparator is from java.lang package where as comparable is from java.util
+
+When we use Comparator ?
+1.when our class not implementing Comparable Interface
+2.When we want to write our own sorting logic
+
+How to make a class Thread-safe?
+Thread safe is something the value of variables inside the class will not changing with threads.
+To make it thread-safe either mark the method with synchronized key word
+in place of integer start using the AtmoicInteger and its methods.
+
+Constructor overloading:
+Within a class we can write any number of constructors and differed in parameters passed.
+

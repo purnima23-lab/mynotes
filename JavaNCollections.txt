@@ -1,0 +1,41 @@
+OOPS Concepts:
+
+Object - Any entity - properties and todo tasks
+Class - blueprint of what object follows
+Encapsulation
+Inheritance
+Polymorphism
+
+
+
+
+
+public static void Main()
+public - access modifier and accessible by any class
+static - can be accessed by JVM without creating any instance
+void - will not return any values
+main - JVM will search for it as a strting point
+
+Platform independent - Java internally gets converted as byte code so that it can run on any system irrespective of OS
+
+Java is not 100% object oriented because it makes use of primitive data types which are not objects
+
+difference between == & equals ()
+== this is used to compare two primitive types such as string and objects.
+equals used to compare the values of two objects 
+
+diff between stack and heap
+stack is a memory which is used by one thread of an application whereas heap is a memory which is used by all parts of an application
+
+
+
+
+
+
+
+
+
+
+
+
+

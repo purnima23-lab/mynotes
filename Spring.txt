@@ -1,0 +1,117 @@
+
+
+Spring Modules:
+Core
+Web/MVC
+security
+data access/integration 
+instrumentation
+Messaging
+AOP
+
+diff b/w yaml & properties file ?
+
+If we are using multiple profiles in spring boot for each profile one property file to be created whereas multiple profiles to be added in one yaml file.
+
+Spring security , web - import these two 
+add these two dependencies in pom.xml
+add another dependency spring-security-oauth-autoconfigure
+For the application class - add the annotation @Enable0Auth2Sso.
+
+- use JWT Token and go for inmemory DB - 
+From the websecurityConfigurerAdapter class we have configre Method.It accepts input of AuthenticationManagerBuilder class
+
+JWTSecurityConfig 
+
+OAuth- Authorization 
+This is between the services so that services can talk each other.
+
+Services can authorize each other on our behalf.
+oauth access token - contains user-allowed permissions trustable
+ 
+ 
+ follow from here :::
+ Authentication can be implemented either in memory or with JPA
+ 
+ Steps for Springboot+JPA+MySQL:
+ 1.dependencies are spring security,web,jpa,mysqldriver.
+ 
+ Authentication - in memory authentication - to implement 
+ 
+ create a class securityconfiguration class by extending WebSecurityConfigureAdapter
+ it will have the configure method which we can override with our logic and pass AuthenticationManagerBuilder class as an argument 
+ add @EnableWebSecurity annotation to this class
+ AuthenticationManagerBuilder ->AuthenticationManager class (authenticate) ->AuthenticationProvider->UserDetailsService class
+  If we are using JDBC for authentication we can use JDBCAuthentication helper class.
+  If we are using JPA this comes inbuilt.
+  The service class (Controller)can be autowired in the Main Configuration class.
+  
+ 
+ Authorization - 
+ 1.WebSecurityConfigureAdapter class with configure method overrided with HttpSecurity as an argument (internal method antPatterns)
+ 
+ 2.Session Token
+ session token will be cumbersome when we have so many services developed
+in case any cookie lost session data will be lost
+
+ 2.JWT
+ Once the user is logged in post authentication each subsequent request will be include the JWT
+ security Authentication between services - JWT (JSONWebToken)
+ JSON tokens exchange over the web (signing the tokens
+Token structure:
+- header - consists of type of the token which is JWT and the security algorithm used which is HS256 / RSA
+- payload - consists of claims info - registered /public /private
+- signature - consists of encoded header + encoded payload + a secret + algorithm which is used in the header and sign that 
+
+this will be passed from HTML to services using Http
+
+overall structure is 
+
+application client will send a request to AuthServer (OAuth) ->AuthServer will send a response to client with a signed token -> further this token will be used to access any of the resource servers.
+
+Advantages of using it over SAML:
+1.JSON verbose is way smaller than XML and on top of encryption JSON will bemuch smaller and it is compact
+2.JSON parsers are common in most of the programs so seperate setup is not needed where as for XML direct object - xml mapping set up to be done.
+
+to implement JWT in spring boot:
+
+spring security, spring web along with in the pom.xml two more dependencies.
+JsonWebtoken - JJwt - <dependencies> and h2database
+our JWT util class we can write the methods for generateToken,creTOken and validateToken 
+
+
+
+diff b/w JWT and OAuth2?
+JWT is a token format where as OAuth is a authorization protocol internally it can use the JWT token
+
+spring security 2 phase authentication:
+page1- display only user name and validation happens against the DB;no need of authorization 
+page2- 
+
+
+
+spring cloud configuration service:
+With this we can achieve consistency , versioning.
+
+Spring cloud config server for microservices.
+to achieve the consistency in the configuration - have one service dedicated for configuration - config as a microservice.
+this service files will be deployed ini GIT Repo.
+
+ for this add config server dependency to spring boot (in the pom - spring-cloud-config-server)
+ @EnableConfigServer annotation to the spring main class.
+ in the application properties file we can mention the config server git uri
+
+
+Lombok annotations:
+Used to reduce the boiler plate code  for model/data objects.
+it can generate getter and setter methods for those objets automatically.
+
+@AllArgsConstructor annotation automatically generates a constructor with a parameter for each field in your class.
+
+@NonNull -  do null checks on those parameters.
+
+ Access level of @NoArgsConstructor allows you to change the access modifier of the generated constructor
+ @NoArgsConstructor(access = AccessLevel. PRIVATE)
+ 
+ 
+ 

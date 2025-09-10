@@ -1,0 +1,47 @@
+
+
+MVCC- Multi Version Concurrency Control
+DB to support concurrency or multiple users access the same database tables
+phase
+how it works:concurrency protocol makes the DB in multiple snapshot versions.
+When a user tries to update a record a version will be created and he will update the local copy.Later once all the transactions on the record is complete based the timestamp of the versions the updates will take effect on that.
+
+ACID- 
+Atomicity - entire transaction will be treated as one
+Consistency - intrgrity constraint to be maintained so that the database will be consistent.
+Isolation - multiple transactions can occur without leading inconsistenct to the database
+Durability - once all the transactions are completed ensure that they have written to disk to avoid any data loss.
+
+full join n inner join - both are same
+
+differnt normalization?
+1NF,2NF etc...
+1NF - removing all duplicates in the table 
+2NF- placing the subsets of data in different tables and create relation ships for those.
+
+custered / non-clustered index:
+clustered index reorders the physical order of the table and search based on the key values.Only one clustered index can be placed on one table 
+non-clustered : it effects on the logical order of the table and up to 999 indexes of this type can be placed on this table.
+
+cursor: traversal over the rows such as addition , deletion for certain rows in the table.
+
+Post delete roll back can be applied , whereas after Truncate roll back will not work.
+
+ stored procedure pros n cons:
+ 
+ mutliple statements can be stored as once n together can be executed.execution will be faster
+ memory occupancy is higher with this.
+ 
+ 2 phase /3 phase commit:
+ 
+ 2 phase - a middle ware co-ordinator service can take care of the commits once it hear from other services.
+ All services acknowledge then it commits the transaction and sends the ack to all other services.
+ 
+ Drawback is if any of transaction failure occurs it will be waiting for the confirmation from the other services and eventually timeout occurs.
+ 
+ 3 phase commit:
+ In this scenario , the co oridnator service asks all services can commit and up on receiving the confirmation it do a pre-commit and sends back the acknowledgement first time and again up on the confirmation it do a final commit.
+ 
+ in these two scenarios high chances of request timeout.
+ 
+ 

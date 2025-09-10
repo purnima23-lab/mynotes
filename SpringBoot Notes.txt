@@ -1,0 +1,226 @@
+basic go with Springboot is it can get rid of using xml -based and annotation based configuration in the application
+Layers - presentation,business,persistence,database
+
+
+it has been built on top of spring IO platform
+
+it provides embedded HTTP servers like tomcat,jetty etc. to develop and test our webapplications easily
+it provides CLI enablement as well
+
+spring boot - it avoids a lot of boiler plate code and integration is very with quickly can be bootstrapped 
+
+disadvantage:unnecessarily increase the deploymnet binary size with lot of dependencies.
+
+Spring boot to enable to @springbootapplication in the application.java file 
+springboot automatically configures hibernate 
+In our project we have used the customized hibernate JPA and redis
+
+In applicationcontext.xml files we define the impl and dao class instantiation
+session fatory declaration will be doing in applicationContext.xml 
+
+in the  pom.xml springboot starter parent and JPA config set up 
+
+h2database
+
+Redis Cache
+
+for cache management , reduces client work load and speeds up the application
+RedisConfig.java
+host username and pwd 
+
+for the pool bean creation it will use Jedis Connectionn Factory 
+
+Inside the RedisTemplate will be having data in key value format 
+
+
+
+
+@EnableAsync - This annotation helps us to run the spring boot application in asynchronously
+@EnableAutoConfiguration - this will automatically configure the spring application based on the jar dependecies we have added.
+We can exclude the autoconfiguration by specifying the class  (exclude = {xyz.class})
+
+@SpringBootApplication - entry point of the springboot application and in the main method springapplication.run will be added
+@ComponentScan - springboot automatically scans all components included in the project 
+to bootstrap the springboot application we can spring initializer.for this we need to provide group,artifcat and the required dependecies to run the application - all these dependencies will be added in pom.xml file
+
+@RestController
+
+
+large and monolithic applications tough to have springboot.
+
+
+
+
+why we have moved to Azure Key Vault:
+In current scenario , environment specific values and passwords stored in properties file which is placed in the application server.
+To avoid unauthorized access.
+For security we have used Azure key valut services and moved all environment properties to azure key valut
+Azure key Vault setup:
+  have used Azure key vault client library for java - This to increase security and control over keys and passwords.
+ 
+ 1.Need to add the maven dependencies in pom.xml 
+ Security key vault secrets & Azure identity dependecies in Maven file
+ 2.need to create a key vault for the environment in the azure portal
+ 
+  3.In catalina.bat file 
+ Client Id and Client Key , Tenanat Key parameter should be added. 
+ and the valut Uri also should be added which is configured in the microsoft portal.
+ 
+ 4.Need to have bean class where we can read the Azure keys.
+ 
+ one bean class created as AzureConfig.java - This is to retrieve the enviornment specific properties from key vault.
+ For accessing the key valut authentication client Id,client Key and tenant Id.
+ 
+ If the key vault values not able to find from key vault configuration it will be read from the properties file.
+ 5.In the application-context file will be defining the bean name.
+ 
+ 6.Spring data source properties in the application.properties file and mention the created azure database and password details.
+ 
+ spring.datasource.initialization-mode=always
+ If we specify the value as always , it will create the azure database everytime
+ 
+ 
+ 
+
+ Edureka:
+ 
+ Springboot set up can be done in 3 ways
+ Install springboot CLI
+ download spring project from spring Tool suite(STS - likely Eclipse)
+ Using Spring Initializer
+ 
+ 
+ Springboot CLI
+ Install Maven &setup
+ Setup env properties for Maven_home & m2_home
+ download springboot cli from spring official website
+ add it to env variables
+ 
+ From Spring Tool Suite
+ either install from marketplace of eclipse
+ or download STS and create a project 
+ 
+ SPring Intializer:
+ From website start.spring.io -(spring initializer)
+ 
+ choose a Maven project n select the version
+ it will generate a maven project with the selected dependencies.
+ 
+ 
+ for the application.java which is the main class - this can be defined with an annotation 
+ @SpringApplication 
+ and main method can have 
+ 
+   springapplication.run(xyz.class)
+   
+   To define a controller class
+   @RestController annotation for the controller class and the request methods can have 
+   @RequestMapping annotation defined 
+   
+   Embedded tomcat server in spring boot
+   usseful for microservices architecture
+   
+   
+ to customize the spring boot - application.properties file 
+ 
+ JPA- the data tier
+ 
+Jpa annotations
+@Entity
+@ManyToOne
+
+Spring Actuator:
+Production ready features to help you monitor and manage our application
+
+helath check of application
+
+
+IRS service
+spring data JPA
+logging with spring
+unit testing
+boot profiles
+spring security
+
+cache implementation
+spring security
+JPA
+
+sprinboot features:
+starter-dependency,auto configuration,embedded server,spring boot cli,actuator and spring intializer
+starter-dependency - to integrate with Restful services simply we can use spring-starter-web which gives the provision of spring mvc layer 
+
+auto-configuration:
+in place of resolvers if we have thymeleaf.jar on the classpath spring automatically include the template resolver  ,view resolvers so on 
+@EnableAutoConfiguration 
+spring initializer :
+this gives the intial project setup in the spring website
+
+starter-web-parent create the initail project structure
+
+
+@springBootApplication = @ComponentScan + @Configuration + @EnableAutoConfiguration
+
+Spring boot webservices:
+
+To use the SOAP Webservices.
+
+the classpath dependency is spring-boot-starter-webservices - add this in the pom.
+to read the SOAP message will be in the wsdl format - add this file in the resources folder.
+To invoke the WSDL file we would be needing client code.For this we can use the WebServiceTemplate classes.
+
+WebServiceGatewaySupport class can be extended.This is a super class for the application classes to use the webservices.
+We need a JAXB2 class to marshal and unmarshal the soap messages.
+Will be creating a bean which can use the JAXB2Marshaller class.
+
+this bean we can access the wsdl class and marshal the message get the needed details.
+
+
+to add documentation to the API - swagger 
+
+1.adding swagger dependency to spring boot fetch from maven repository - need to add it to pom.xml
+springfox-swagger2
+2.Add the annotation @EnableSwagger2 for the springboot starter class.
+3.access the api-docs endpoint from postman it will give the API documentation in JSON format
+to get the documentation in HTML format we can add springfox swagger UI dependency 
+in pom.xml
+
+logging in springboot:
+by default spring bott starter parent will have the logging configuration as well no need of adding any external dependency.
+
+In the controller class we can Logger log  = LoggerFactory.getLogger(xyzcontroller.class)
+in the application.properties we can mention the log file name and path of the file.
+
+If we want the users to be redirected to different pages post login then we can use the RedirectStrattegy clss
+
+custom login screen with springboot
+Dependency needed - web and security
+
+create a security class extends WebSecurityConfigurerAdapter and add the @EnableWebSecurity
+add one thymeleaf dependency in pom.xml - to let the spring aware that we are using custom templates.
+
+
+springboot + docker+ kubernetes
+
+Docker Intro:
+This is container engine that can create and manage containers and to quickly deploy the applications in mulitple environments.
+
+Application can be created as images and upload them into docker.
+Docker can run it irrespective of the softwares and OS.
+
+architecture is :
+Docker Client(command line for the commands type in) -> Docker Daemon -> Container ,images , images Registry.
+
+When any command for running the images docker client will apprach the daemon then it will look for the images if it is not found then will import it from the regsitry.
+
+In AWS we have Elastic Container Service.
+
+Kuberenetes:
+Intro:
+to orchestrate the images,instant scaling and auto load balancing
+This is cloud neutral which means if it is deployed in local it can run on ay cloud
+
+services can call as pods.
+Within no time we can scale up the services to handle the load.
+
+

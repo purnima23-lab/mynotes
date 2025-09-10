@@ -1,0 +1,12 @@
+Redis:
+
+Cache Management - in Memory Data Structure.
+stores data in key value format
+
+jar added is shiro-redis
+for externalizing the session management
+
+to enable redis-caching application class can have @EnableCaching annotation and the RedisContoller class can have @Cachable annotation enabled to the methods
+
+In the application while user gave a hit for the login during this process JSessionId a unique id would be creating by application logic and with the redissetup it will look for the session id in the cache db if it is not found it will set the information and the cache for later use.
+
